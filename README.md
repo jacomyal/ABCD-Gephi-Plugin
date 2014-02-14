@@ -17,7 +17,15 @@ Here is how it works:
 
 Finally, you can represent the communities as colors through the `Partition > Nodes` panel (selecting Modularity).
 
+
+
 Details of the algortihm for calculation the friendship score:
+Parameters of the Algorithm:
+pd = Direct Connection Penalty:
+ct = Common neighbours score (transitive node, A->C->B)
+cg = Common neighbours score (common traget node, A->C<-B)
+co = Common neighbours score (common source node, A<-C->B)
+
 Example Network: A,B,C nodes; w1,w2,w3 edge weights
 A---w1--B
 \      /
@@ -26,3 +34,5 @@ A---w1--B
     C
 
 We calculate the friendship score of A and B with the following formula:
+w1 will be multiplied with the 
+
