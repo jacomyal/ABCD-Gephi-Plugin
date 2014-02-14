@@ -26,10 +26,11 @@ Finally, you can represent the communities as colors through the `Partition > No
  - ct = Common neighbours score (transitive node, A->C->B)
  - cg = Common neighbours score (common traget node, A->C<-B)
  - co = Common neighbours score (common source node, A<-C->B)
- - c = Common neighbours score (undirected network, A-C-B)
+ - c = Common neighbours score (undirected network, A-C-B). In the case of an undiurected network the parameters ct, cg amd co have to nbe set all to the same value (which we refer to as c from now on) otherwise the result of thre algortihm will be depending on the internal representation of the undirected nodes in Gephi. 
  - t = treshold for the establishement of a friendship link
 
-#### Example Network: A,B,C,D nodes; w1,w2,w3,w4,w5 edge weights
+#### Example 
+Network: A,B,C,D nodes; w1,w2,w3,w4,w5 edge weights
 
 ````
     D
@@ -43,7 +44,7 @@ A---w1---B
     C
 ````
 
-We calculate the friendship score s of A and B with the following formula (we only use a direct):
+We calculate the friendship score s of A and B with the following formula (we only use a direct network):
 
 s(A,B)=pd*w1+c*(w2+w3+w4+45)
 
