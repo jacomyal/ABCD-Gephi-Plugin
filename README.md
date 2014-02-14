@@ -22,11 +22,11 @@ Finally, you can represent the communities as colors through the `Partition > No
 ### Details of the algortihm for calculation the friendship score:
 #### Parameters of the Algorithm:
 
- - pd = Direct Connection Penalty (should be smaller than 0):
+ - pd = Direct Connection Penalty (should be a value below 0):
  - ct = Common neighbours score (transitive node, A->C->B)
  - cg = Common neighbours score (common traget node, A->C<-B)
  - co = Common neighbours score (common source node, A<-C->B)
- - c = Common neighbours score (undirected network, A-C-B). In the case of an undiurected network the parameters ct, cg amd co have to nbe set all to the same value (which we refer to as c from now on) otherwise the result of thre algortihm will be depending on the internal representation of the undirected nodes in Gephi. 
+ - c = Common neighbours score (undirected network, A-C-B). In the case of an undirected network the parameters ct, cg and co have to be set all to the same value (which we refer to as c from now on) otherwise the result of the algortihm will be depending on the internal representation of the undirected nodes in Gephi. 
  - t = treshold for the establishement of a friendship link
 
 #### Example 
