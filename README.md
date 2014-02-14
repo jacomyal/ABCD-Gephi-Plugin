@@ -35,9 +35,9 @@ Network: A, B, C, D nodes; w1, w2, w3, w4, w5 edge weights
     D
    / \
  w4   w5
-/       \
+ /      \
 A---w1---B
-\       /
+ \      /
  w2   w3
    \ /
     C
