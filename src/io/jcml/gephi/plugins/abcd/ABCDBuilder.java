@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package io.jcml.gephi.plugins.friendships;
+package io.jcml.gephi.plugins.abcd;
 
-import io.jcml.gephi.plugins.friendships.Friendships;
+import io.jcml.gephi.plugins.abcd.ABCD;
 import org.gephi.statistics.spi.Statistics;
 import org.gephi.statistics.spi.StatisticsBuilder;
 import org.openide.util.lookup.ServiceProvider;
@@ -16,20 +16,20 @@ import org.openide.util.lookup.ServiceProvider;
  * @author jacomyal
  */
 @ServiceProvider(service = StatisticsBuilder.class)
-public class FriendshipsBuilder implements StatisticsBuilder {
+public class ABCDBuilder implements StatisticsBuilder {
 
     @Override
     public String getName() {
-        return "Reverse";//NbBundle.getMessage(ReverseBuilder.class, "Reverse.name");
+        return "ABCD Algorithm";
     }
 
     @Override
     public Statistics getStatistics() {
-        return new Friendships();
+        return new ABCD();
     }
 
     @Override
     public Class<? extends Statistics> getStatisticsClass() {
-        return Friendships.class;
+        return ABCD.class;
     }
 }

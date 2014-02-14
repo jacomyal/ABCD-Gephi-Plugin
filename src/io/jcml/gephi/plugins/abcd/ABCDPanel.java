@@ -4,20 +4,20 @@
  * and open the template in the editor.
  */
 
-package io.jcml.gephi.plugins.friendships;
+package io.jcml.gephi.plugins.abcd;
 
 /**
  *
  * @author jacomyal
  */
-public class FriendshipsPanel extends javax.swing.JPanel {
+public class ABCDPanel extends javax.swing.JPanel {
     
     private Object bean;
 
     /**
      * Creates new customizer ReversePanel
      */
-    public FriendshipsPanel() {
+    public ABCDPanel() {
         initComponents();
     }
     
@@ -177,7 +177,7 @@ public class FriendshipsPanel extends javax.swing.JPanel {
         jLabel5.setText("Ignore edge weights");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel6.setText("Friendships communities");
+        jLabel6.setText("Antagonism Based Community Detection");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel7.setText("(modifies irreveribly the graph is set to true)");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.jcml.gephi.plugins.friendships;
+package io.jcml.gephi.plugins.abcd;
 
 import javax.swing.JPanel;
 import org.gephi.statistics.spi.Statistics;
@@ -11,52 +11,52 @@ import org.gephi.statistics.spi.StatisticsUI;
 import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = StatisticsUI.class)
-public class FriendshipsUI implements StatisticsUI {
+public class ABCDUI implements StatisticsUI {
 
     private final StatSettings settings = new StatSettings();
-    private FriendshipsPanel panel;
-    private Friendships reverse;
+    private ABCDPanel panel;
+    private ABCD abcd;
 
     @Override
     public JPanel getSettingsPanel() {
-        panel = new FriendshipsPanel();
+        panel = new ABCDPanel();
         return panel;
     }
 
     @Override
     public void setup(Statistics statistics) {
-        this.reverse = (Friendships) statistics;
+        this.abcd = (ABCD) statistics;
         if (panel != null) {
-            settings.load(reverse);
-            panel.setP0Ratio(reverse.getP0Ratio());
-            panel.setP1Ratio(reverse.getP1Ratio());
-            panel.setP2Ratio(reverse.getP2Ratio());
-            panel.setP3Ratio(reverse.getP3Ratio());
-            panel.setThreshold(reverse.getThreshold());
-            panel.setOverrideEdges(reverse.getOverrideEdges());
-            panel.setIgnoreEdgeWeights(reverse.getIgnoreEdgeWeights());
+            settings.load(abcd);
+            panel.setP0Ratio(abcd.getP0Ratio());
+            panel.setP1Ratio(abcd.getP1Ratio());
+            panel.setP2Ratio(abcd.getP2Ratio());
+            panel.setP3Ratio(abcd.getP3Ratio());
+            panel.setThreshold(abcd.getThreshold());
+            panel.setOverrideEdges(abcd.getOverrideEdges());
+            panel.setIgnoreEdgeWeights(abcd.getIgnoreEdgeWeights());
         }
     }
 
     @Override
     public void unsetup() {
         if (panel != null) {
-            reverse.setP0Ratio(panel.getP0Ratio());
-            reverse.setP1Ratio(panel.getP1Ratio());
-            reverse.setP2Ratio(panel.getP2Ratio());
-            reverse.setP3Ratio(panel.getP3Ratio());
-            reverse.setThreshold(panel.getThreshold());
-            reverse.setOverrideEdges(panel.getOverrideEdges());
-            reverse.setIgnoreEdgeWeights(panel.getIgnoreEdgeWeights());
-            settings.save(reverse);
+            abcd.setP0Ratio(panel.getP0Ratio());
+            abcd.setP1Ratio(panel.getP1Ratio());
+            abcd.setP2Ratio(panel.getP2Ratio());
+            abcd.setP3Ratio(panel.getP3Ratio());
+            abcd.setThreshold(panel.getThreshold());
+            abcd.setOverrideEdges(panel.getOverrideEdges());
+            abcd.setIgnoreEdgeWeights(panel.getIgnoreEdgeWeights());
+            settings.save(abcd);
         }
         panel = null;
-        reverse = null;
+        abcd = null;
     }
 
     @Override
     public Class<? extends Statistics> getStatisticsClass() {
-        return Friendships.class;
+        return ABCD.class;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class FriendshipsUI implements StatisticsUI {
 
     @Override
     public String getDisplayName() {
-        return "Friendship Modularity";
+        return "ABCD Algorithm";
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FriendshipsUI implements StatisticsUI {
 
     @Override
     public String getShortDescription() {
-        return "How to use Modularity if edges represent antagonisms?";
+        return "Antagonism Based Community Detection";
     }
 
     private static class StatSettings {
@@ -94,7 +94,7 @@ public class FriendshipsUI implements StatisticsUI {
         private boolean overrideEdges = false;
         private boolean ignoreEdgeWeights = false;
 
-        private void save(Friendships stat) {
+        private void save(ABCD stat) {
             this.p0Ratio = stat.getP0Ratio();
             this.p1Ratio = stat.getP1Ratio();
             this.p2Ratio = stat.getP2Ratio();
@@ -104,7 +104,7 @@ public class FriendshipsUI implements StatisticsUI {
             this.ignoreEdgeWeights = stat.getIgnoreEdgeWeights();
         }
 
-        private void load(Friendships stat) {
+        private void load(ABCD stat) {
             stat.setP0Ratio(p0Ratio);
             stat.setP1Ratio(p1Ratio);
             stat.setP2Ratio(p2Ratio);

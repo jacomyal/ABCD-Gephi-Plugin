@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: io.jcml.gephi.plugins.friendships
-OpenIDE-Module-Localizing-Bundle: io/jcml/gephi/plugins/friendships/Bundle.properties
+OpenIDE-Module-Localizing-Bundle: io/jcml/gephi/plugins/abcd/Bundle.properties
 OpenIDE-Module-Specification-Version: 1.0
 

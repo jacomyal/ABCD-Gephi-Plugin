@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package io.jcml.gephi.plugins.friendships;
+package io.jcml.gephi.plugins.abcd;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -31,7 +31,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  *
  * @author jacomyal
  */
-public class Friendships implements Statistics {
+public class ABCD implements Statistics {
     
     private HashMap<Integer, HashMap<Integer, Float>> counts;
     private HashMap<Float, Integer> countsDist;
@@ -46,7 +46,7 @@ public class Friendships implements Statistics {
     private boolean overrideEdges;
     private boolean ignoreEdgeWeights;
 
-    public Friendships() {
+    public ABCD() {
     }
 
     private void addToCount(Integer n1, Integer n2, Float value) {
@@ -230,11 +230,11 @@ public class Friendships implements Statistics {
         chart1.removeLegend();
         ChartUtils.decorateChart(chart1);
         ChartUtils.scaleChart(chart1, cSeries, false);
-        String countsImageFile = ChartUtils.renderChart(chart1, "degree-distribution.png");
+        String countsImageFile = ChartUtils.renderChart(chart1, "scores-distribution.png");
 
         NumberFormat f = new DecimalFormat("#0.000");
 
-        report = "<HTML> <BODY> <h1>Degree Report </h1> "
+        report = "<HTML> <BODY> <h1>ABCD Report </h1> "
                 + "<hr>"
                 + "<br> <h2> Results: </h2>"
                 + "Average score: " + f.format(avgFriendship)
