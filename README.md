@@ -43,7 +43,7 @@ A---w1---B
     C
 ````
 
-We calculate the friendship score `s` of A and B with the following formula (we only use a direct network):
+We calculate the friendship score `s` of A and B with the following formula (we only use an undirected network):
 ````
 s(A, B) = pd * w1 + c * (w2 + w3 + w4 + w5)
 ````
