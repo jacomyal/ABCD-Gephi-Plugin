@@ -17,26 +17,25 @@ Here is how it works:
 
 Finally, you can represent the communities as colors through the `Partition > Nodes` panel (selecting Modularity).
 
-
-
 ### Details of the algortihm for calculation the friendship score:
+
 #### Parameters of the Algorithm:
 
- - pd = Direct Connection Penalty (should be a value below 0):
- - ct = Common neighbours score (transitive node, A->C->B)
- - cg = Common neighbours score (common traget node, A->C<-B)
- - co = Common neighbours score (common source node, A<-C->B)
- - c = Common neighbours score (undirected network, A-C-B). In the case of an undirected network the parameters ct, cg and co have to be set all to the same value (which we refer to as c from now on) otherwise the result of the algortihm will be depending on the internal representation of the undirected nodes in Gephi. 
- - t = treshold for the establishement of a friendship link
+ - **pd** = Direct Connection Penalty (should be a value below 0)
+ - **ct** = Common neighbours score (transitive node, `A->C->B`)
+ - **cg** = Common neighbours score (common traget node, `A->C<-B`)
+ - **co** = Common neighbours score (common source node, `A<-C->B`)
+ - **c** = Common neighbours score (undirected network, `A-C-B`). In the case of an undirected network the parameters ct, cg and co have to be set all to the same value (which we refer to as c from now on) otherwise the result of the algorithm will be depending on the internal representation of the undirected nodes in Gephi.
+ - **t** = treshold for the establishement of a friendship link
 
-#### Example 
-Network: A,B,C,D nodes; w1,w2,w3,w4,w5 edge weights
+#### Example
+Network: A, B, C, D nodes; w1, w2, w3, w4, w5 edge weights
 
 ````
     D
    / \
-  w4  w5
- /      \
+ w4   w5
+/       \
 A---w1---B
 \       /
  w2   w3
@@ -44,13 +43,16 @@ A---w1---B
     C
 ````
 
-We calculate the friendship score s of A and B with the following formula (we only use a direct network):
+We calculate the friendship score `s` of A and B with the following formula (we only use a direct network):
+````
+s(A, B) = pd * w1 + c * (w2 + w3 + w4 + w5)
+````
 
-s(A,B)=pd*w1+c*(w2+w3+w4+45)
+And for A and C it is:
+````
+s(A, C) = pd * w2 + c * (w1 + w3)
+````
 
-and for A and C it is
-s(A,C)=pd*w2+c*(w1+w3)
+All common neighbours of two nodes are contrasted with the weight multiplied by the penality factor `pd` of the conenctin between these two nodes.
 
-All common neighbours of two nodes are contrasted with the weight multiplied by the penality factor pd of the conenctin between thes etwo nodes.
-
-A and B are linked if  s(A,B)>t.
+A and B are linked if: `s(A, B) > t`
