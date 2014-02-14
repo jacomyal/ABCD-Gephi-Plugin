@@ -1,4 +1,4 @@
-## Friendship-based community detection
+## Antagonism-based community detection
 
 Developped by [Alexis Jacomy](https://github.com/jacomyal) for the [Contropedia](http://contropedia.net/) project.
 Plugin released under the [MIT License](https://github.com/jacomyal/FriendshipsPlugin/blob/master/LICENSE.txt).
@@ -35,15 +35,15 @@ Network: A, B, C, D nodes; w1, w2, w3, w4, w5 edge weights
     D
    / \
  w4   w5
-/       \
+ /      \
 A---w1---B
-\       /
+ \      /
  w2   w3
    \ /
     C
 ````
 
-We calculate the friendship score `s` of A and B with the following formula (we only use a direct network):
+We calculate the friendship score `s` of A and B with the following formula (we only use an undirected network):
 ````
 s(A, B) = pd * w1 + c * (w2 + w3 + w4 + w5)
 ````
