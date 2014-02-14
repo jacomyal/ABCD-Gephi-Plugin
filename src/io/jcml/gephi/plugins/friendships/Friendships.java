@@ -6,6 +6,8 @@
 
 package io.jcml.gephi.plugins.friendships;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +17,15 @@ import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.HierarchicalGraph;
 import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.Node;
+import org.gephi.statistics.plugin.ChartUtils;
 import org.gephi.statistics.plugin.Modularity;
 import org.gephi.statistics.spi.Statistics;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.openide.util.Lookup;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -26,12 +34,17 @@ import org.openide.util.Lookup;
 public class Friendships implements Statistics {
     
     private HashMap<Integer, HashMap<Integer, Float>> counts;
+    private HashMap<Float, Integer> countsDist;
+    private float avgFriendship;
     private float p0Ratio; //  o --> o
     private float p1Ratio; // --> o -->
     private float p2Ratio; // --> o <--
     private float p3Ratio; // <-- o -->
+    private float threshold;
     private boolean isDirected;
     private boolean isCanceled;
+    private boolean overrideEdges;
+    private boolean ignoreEdgeWeights;
 
     public Friendships() {
     }
@@ -60,6 +73,7 @@ public class Friendships implements Statistics {
 
     public void execute(HierarchicalGraph graph, AttributeModel attributeModel) {
         counts = new HashMap<Integer, HashMap<Integer, Float>>();
+        countsDist = new HashMap<Float, Integer>();
         Integer i = 0;
 
         graph.readLock();
@@ -94,7 +108,7 @@ public class Friendships implements Statistics {
             this.addToCount(
                     e1.getSource().getId(),
                     e1.getTarget().getId(),
-                    p0Ratio * e1.getWeight()
+                    p0Ratio * (ignoreEdgeWeights ? 1 : e1.getWeight())
             );
             
             // Parse edges connected to the target:
@@ -104,14 +118,14 @@ public class Friendships implements Statistics {
                     this.addToCount(
                             e1.getSource().getId(),
                             e2.getTarget().getId(),
-                            p1Ratio * (e1.getWeight() + e2.getWeight())
+                            p1Ratio * (ignoreEdgeWeights ? 2 : (e1.getWeight() + e2.getWeight()))
                     );
                 else if (e1.getSource().getId() < e2.getSource().getId())
                     // Pattern: --> o <--
                     this.addToCount(
                             e1.getSource().getId(),
                             e2.getSource().getId(),
-                            p2Ratio * (e1.getWeight() + e2.getWeight())
+                            p2Ratio * (ignoreEdgeWeights ? 2 : (e1.getWeight() + e2.getWeight()))
                     );
             }
             
@@ -125,7 +139,7 @@ public class Friendships implements Statistics {
                     this.addToCount(
                             e1.getTarget().getId(),
                             e2.getTarget().getId(),
-                            p3Ratio * (e1.getWeight() + e2.getWeight())
+                            p3Ratio * (ignoreEdgeWeights ? 2 : (e1.getWeight() + e2.getWeight()))
                     );
             }
 
@@ -137,15 +151,19 @@ public class Friendships implements Statistics {
         Integer values = 0;
         Float sum = 0f;
         Float max = 0f;
-        Float threshold;
         for (HashMap<Integer, Float> map : counts.values()) {
             for (Float value : map.values()) {
                 max = Math.max(max, value);
                 sum += value;
                 values++;
+                
+                if (!countsDist.containsKey(value)) {
+                    countsDist.put(value, 0);
+                }
+                countsDist.put(value, countsDist.get(value) + 1);
             }
         }
-        threshold = graph.getNodeCount() > 1000 ? (max + sum / values) / 2 : 1;
+        avgFriendship = sum / values;
 
         graph.readUnlockAll();
         graph.writeLock();
@@ -178,19 +196,52 @@ public class Friendships implements Statistics {
         mod.execute(graph.getGraphModel(), attributeModel);
         
         // Restore initial graph:
-        graph.writeLock();
-        graph.clearEdges();
-        
-        for (Edge e : oldEdges) {
-            graph.addEdge(e);
+        if (!overrideEdges) {
+            graph.writeLock();
+            graph.clearEdges();
+
+            for (Edge e : oldEdges) {
+                graph.addEdge(e);
+            }
+
+            graph.writeUnlock();
         }
-        
-        graph.writeUnlock();
     }
     
     @Override
     public String getReport() {
-        return "";
+        String report = "";
+        
+        //Distribution series
+        XYSeries cSeries = ChartUtils.createXYSeries(countsDist, "Friendship Scores Distribution");
+
+        XYSeriesCollection dataset1 = new XYSeriesCollection();
+        dataset1.addSeries(cSeries);
+
+        JFreeChart chart1 = ChartFactory.createXYLineChart(
+                "Friendship Scores Distribution",
+                "Value",
+                "Count",
+                dataset1,
+                PlotOrientation.VERTICAL,
+                true,
+                false,
+                false);
+        chart1.removeLegend();
+        ChartUtils.decorateChart(chart1);
+        ChartUtils.scaleChart(chart1, cSeries, false);
+        String countsImageFile = ChartUtils.renderChart(chart1, "degree-distribution.png");
+
+        NumberFormat f = new DecimalFormat("#0.000");
+
+        report = "<HTML> <BODY> <h1>Degree Report </h1> "
+                + "<hr>"
+                + "<br> <h2> Results: </h2>"
+                + "Average score: " + f.format(avgFriendship)
+                + "<br /><br />"+countsImageFile
+                + "</BODY></HTML>";
+
+        return report;
     }
 
     public float getP0Ratio() {
@@ -223,5 +274,29 @@ public class Friendships implements Statistics {
 
     public void setP3Ratio(float p3Ratio) {
         this.p3Ratio = p3Ratio;
+    }
+
+    public float getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(float threshold) {
+        this.threshold = threshold;
+    }
+
+    public boolean getOverrideEdges() {
+        return overrideEdges;
+    }
+
+    public void setOverrideEdges(boolean overrideEdges) {
+        this.overrideEdges = overrideEdges;
+    }
+
+    public boolean getIgnoreEdgeWeights() {
+        return ignoreEdgeWeights;
+    }
+
+    public void setIgnoreEdgeWeights(boolean ignoreEdgeWeights) {
+        this.ignoreEdgeWeights = ignoreEdgeWeights;
     }
 }

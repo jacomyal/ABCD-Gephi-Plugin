@@ -32,6 +32,9 @@ public class FriendshipsUI implements StatisticsUI {
             panel.setP1Ratio(reverse.getP1Ratio());
             panel.setP2Ratio(reverse.getP2Ratio());
             panel.setP3Ratio(reverse.getP3Ratio());
+            panel.setThreshold(reverse.getThreshold());
+            panel.setOverrideEdges(reverse.getOverrideEdges());
+            panel.setIgnoreEdgeWeights(reverse.getIgnoreEdgeWeights());
         }
     }
 
@@ -42,6 +45,9 @@ public class FriendshipsUI implements StatisticsUI {
             reverse.setP1Ratio(panel.getP1Ratio());
             reverse.setP2Ratio(panel.getP2Ratio());
             reverse.setP3Ratio(panel.getP3Ratio());
+            reverse.setThreshold(panel.getThreshold());
+            reverse.setOverrideEdges(panel.getOverrideEdges());
+            reverse.setIgnoreEdgeWeights(panel.getIgnoreEdgeWeights());
             settings.save(reverse);
         }
         panel = null;
@@ -60,7 +66,7 @@ public class FriendshipsUI implements StatisticsUI {
 
     @Override
     public String getDisplayName() {
-        return "ReverseUI";//NbBundle.getMessage(getClass(), "ReverseUI.name");
+        return "Friendship Modularity";
     }
 
     @Override
@@ -75,7 +81,7 @@ public class FriendshipsUI implements StatisticsUI {
 
     @Override
     public String getShortDescription() {
-        return "TODO";//NbBundle.getMessage(getClass(), "ReverseUI.shortDescription");
+        return "How to use Modularity if edges represent antagonisms?";
     }
 
     private static class StatSettings {
@@ -84,12 +90,18 @@ public class FriendshipsUI implements StatisticsUI {
         private float p1Ratio = 1;
         private float p2Ratio = 1;
         private float p3Ratio = 1;
+        private float threshold = 1;
+        private boolean overrideEdges = false;
+        private boolean ignoreEdgeWeights = false;
 
         private void save(Friendships stat) {
             this.p0Ratio = stat.getP0Ratio();
             this.p1Ratio = stat.getP1Ratio();
             this.p2Ratio = stat.getP2Ratio();
             this.p3Ratio = stat.getP3Ratio();
+            this.threshold = stat.getThreshold();
+            this.overrideEdges = stat.getOverrideEdges();
+            this.ignoreEdgeWeights = stat.getIgnoreEdgeWeights();
         }
 
         private void load(Friendships stat) {
@@ -97,6 +109,9 @@ public class FriendshipsUI implements StatisticsUI {
             stat.setP1Ratio(p1Ratio);
             stat.setP2Ratio(p2Ratio);
             stat.setP3Ratio(p3Ratio);
+            stat.setThreshold(threshold);
+            stat.setOverrideEdges(overrideEdges);
+            stat.setIgnoreEdgeWeights(ignoreEdgeWeights);
         }
     }
 }
