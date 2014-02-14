@@ -13,6 +13,16 @@ Here is how it works:
  2. All original edges are removed.
  3. Each pair of nodes that has a score higher than the threshold will become connected.
  4. The Modularity algorithm is then used to detect communities, on the new graph.
- 5. Finally, unless the `Override edges` flag is set to true, the new edges are removed and the original ones are restored.
+ 5. Finally, unless the `Override edges` flag is set to true, the new edges are removed and the original ones are restored again. Be aware that if you set the `Override edges` flag the orginal network will be lost (unless you reload the orginal data).
 
 Finally, you can represent the communities as colors through the `Partition > Nodes` panel (selecting Modularity).
+
+Details of the algortihm for calculation the friendship score:
+Example Network: A,B,C nodes; w1,w2,w3 edge weights
+A---w1--B
+\      /
+ w2   w3
+   \ /
+    C
+
+We calculate the friendship score of A and B with the following formula:
