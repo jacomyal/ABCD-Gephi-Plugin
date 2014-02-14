@@ -1,4 +1,4 @@
-## Friendship-based community detection
+## Antagonism-based community detection
 
 Developped by [Alexis Jacomy](https://github.com/jacomyal) for the [Contropedia](http://contropedia.net/) project.
 Plugin released under the [MIT License](https://github.com/jacomyal/FriendshipsPlugin/blob/master/LICENSE.txt).
