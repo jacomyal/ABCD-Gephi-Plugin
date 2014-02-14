@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="io.jcml.gephi.plugins.friendships" default="netbeans" basedir=".">
-    <description>Builds, tests, and runs the project io.jcml.gephi.plugins.friendships.</description>
+<project name="io.jcml.gephi.plugins.abcd" default="netbeans" basedir=".">
+    <description>Builds, tests, and runs the project io.jcml.gephi.plugins.abcd.</description>
     <import file="nbproject/build-impl.xml"/>
 </project>
