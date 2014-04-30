@@ -8,7 +8,7 @@ This Gephi plugins aims to find communities when edges are connecting enemy node
 Here is how it works:
 
  1. The plugin computes a friendship score between each pair of nodes.
-   - The more common enemies two nodes have, the highesr their score will be.
+   - The more common enemies two nodes have, the higher their score will be.
    - The more connected two nodes are, the lower their score will become.
  2. All original edges are removed.
  3. Each pair of nodes that has a score higher than the threshold will become connected.
