@@ -1,6 +1,6 @@
 ## Antagonism-based community detection
 
-Developped by [Alexis Jacomy](https://github.com/jacomyal) for the [Contropedia](http://contropedia.net/) project.
+Developed by [Alexis Jacomy](https://github.com/jacomyal) for the [Contropedia](http://contropedia.net/) project.
 Plugin released under the [MIT License](https://github.com/jacomyal/FriendshipsPlugin/blob/master/LICENSE.txt).
 
 This Gephi plugins aims to find communities when edges are connecting enemy nodes.
